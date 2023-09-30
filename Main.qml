@@ -195,12 +195,19 @@ Rectangle {
         }
 
         TextInput {
+            Rectangle {
+                id: textInputBackground
+                z: -1
+                anchors.fill: parent
+                radius: 20
+                border.color: config.textInputBackground
+                color: config.textInputBackground
+            }
             id: passwordInput
-            width: parent.width/2
-            height: 200
-
+            width: parent.width/3.5
+            height: 50
             font.family: config.font
-            font.pointSize: 20
+            font.pointSize: config.passwordCharacterSize
             font.bold: true
             font.letterSpacing: 10
             anchors {
@@ -223,7 +230,7 @@ Rectangle {
             cursorDelegate: Rectangle {
                 id: passwordInputCursor
                 width: 1
-                onHeightChanged: height = passwordInput.height/5
+                onHeightChanged: height = passwordInput.height/1.5
                 anchors.verticalCenter: parent.verticalCenter
                 color: (() => {
                         if (config.cursorColor.length == 7 && config.cursorColor[0] == "#") {
