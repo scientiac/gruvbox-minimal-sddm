@@ -8,7 +8,6 @@ Rectangle {
     width: 640
     height: 480
 
-
     readonly property color textColor: config.textColor 
     property int currentUsersIndex: userModel.lastIndex
     property int currentSessionsIndex: sessionModel.lastIndex
@@ -307,7 +306,7 @@ Rectangle {
                   "Reboot - F12"
             color: textColor
             font.pointSize: 18
-            font.family: "monospace"
+            font.family: config.font
             anchors {
                 top: parent.top
                 topMargin: 30
