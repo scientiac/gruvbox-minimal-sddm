@@ -1,7 +1,7 @@
 with import <nixpkgs> {};
 
 stdenv.mkDerivation {
-  name = "sddm-theme";
+  name = "gruvbox-minimal-sddm";
   buildInputs = [
     libsForQt5.qt5.qtquickcontrols2
     libsForQt5.qt5.qtgraphicaleffects
