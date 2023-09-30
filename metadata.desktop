@@ -1,0 +1,14 @@
+[SddmGreeterTheme]
+Name=Gruvbox Minimal SDDM
+Description=Minimal Gruvbox theme forked from where-is-my-sddm-theme
+Screenshot=screenshot.png
+Website=https://gitlab.com/scientiac
+Author=stepanzubkov, scientiac
+Copyright=(c) 2023, stepanzubkov, scientiac
+License=MIT
+Version=1.5.0
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=gruvbox-minimal-sddm
+Theme-API=2.2
