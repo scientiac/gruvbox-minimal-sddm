@@ -8,6 +8,12 @@ Rectangle {
     width: 640
     height: 480
 
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        cursorShape: Qt.BlankCursor
+    }
+
     Keys.onPressed: {
       if (event.key === Qt.Key_F2 && event.modifiers === Qt.AltModifier) {
         // Alt + F2
@@ -39,16 +45,16 @@ Rectangle {
       } else if (event.key === Qt.Key_F1) {
         // F1
         helpMessage.visible = !helpMessage.visible;
+        mouseArea.cursorShape = Qt.ArrowCursor;
       } else if (event.key === Qt.Key_Escape) {
         // Esc key pressed
         username.visible = false;
         sessionName.visible = false;
         helpMessage.visible = false;
+        // Show mouse cursor
+        mouseArea.cursorShape = Qt.BlankCursor;
     }
     }
-
-    Component.onCompleted:
-      Qt.application.setCursorShape(Qt.BlankCursor)
 
     readonly property color textColor: config.textColor 
     property int currentUsersIndex: userModel.lastIndex
@@ -166,14 +172,6 @@ Rectangle {
         TextInput {
 
             Rectangle {
-
-              MouseArea {
-                anchors.fill: parent
-                  onEntered: {
-                    Qt.application.setCursorShape(Qt.BlankCursor);
-                  }
-              }
-
                 id: textInputBackground
                 z: -1
                 anchors.fill: parent
@@ -290,9 +288,9 @@ Rectangle {
             text: "Show help - F1\n" +
                   "Cycle select next user - alt+F2\n" +
                   "Cycle select next session - alt+F3\n" +
-                  "Suspend - F10\n" +
-                  "Poweroff - F11\n" +
-                  "Reboot - F12"
+                  "Suspend - F10 [fn+F10]\n" +
+                  "Poweroff - F11 [fn+F11]\n" +
+                  "Reboot - F12 [fn+F12]"
             color: config.hiddenTextColor
             font.pointSize: 14
             font.family: config.font
