@@ -19,6 +19,7 @@ Reboot - F12 [fn+F12]
 > Mouse Cursor is hidden and will show up on pressing `F1` for help.
 
 ## NixOS Installation
+### In configuration directory
 
 > sddm-gruvbox.nix
 ```nix
