@@ -8,6 +8,48 @@ Rectangle {
     width: 640
     height: 480
 
+    Keys.onPressed: {
+      if (event.key === Qt.Key_F2 && event.modifiers === Qt.AltModifier) {
+        // Alt + F2
+        if (!username.visible) {
+          username.visible = true;
+        }
+        usersCycleSelectNext();
+      } else if (event.key === Qt.Key_F3 && event.modifiers === Qt.AltModifier) {
+        // Alt + F3
+        if (!sessionName.visible) {
+          sessionName.visible = true;
+        }
+        sessionsCycleSelectNext();
+      } else if (event.key === Qt.Key_F10) {
+        // F10
+        if (sddm.canSuspend) {
+          sddm.suspend();
+        }
+      } else if (event.key === Qt.Key_F11) {
+        // F11
+        if (sddm.canPowerOff) {
+          sddm.powerOff();
+        }
+      } else if (event.key === Qt.Key_F12) {
+        // F12
+        if (sddm.canReboot) {
+          sddm.reboot();
+        }
+      } else if (event.key === Qt.Key_F1) {
+        // F1
+        helpMessage.visible = !helpMessage.visible;
+      } else if (event.key === Qt.Key_Escape) {
+        // Esc key pressed
+        username.visible = false;
+        sessionName.visible = false;
+        helpMessage.visible = false;
+    }
+    }
+
+    Component.onCompleted:
+      Qt.application.setCursorShape(Qt.BlankCursor)
+
     readonly property color textColor: config.textColor 
     property int currentUsersIndex: userModel.lastIndex
     property int currentSessionsIndex: sessionModel.lastIndex
@@ -88,81 +130,6 @@ Rectangle {
         y: geometry.y
         width: geometry.width
         height: geometry.height
-        Shortcut {
-            sequences: ["Alt+U", "F2"]
-            onActivated: {
-                if (!username.visible) {
-                    username.visible = true;
-                    return;
-                }
-                usersCycleSelectNext();
-            }
-        }
-        Shortcut {
-            sequences: ["Alt+Ctrl+S", "Ctrl+F3"]
-            onActivated: {
-                if (!sessionName.visible) {
-                    sessionName.visible = true;
-                    return;
-                }
-                sessionsCycleSelectPrev();
-            }
-        }
-
-        Shortcut {
-            sequences: ["Alt+S", "F3"]
-            onActivated: {
-                if (!sessionName.visible) {
-                    sessionName.visible = true;
-                    return;
-                }
-                sessionsCycleSelectNext();
-            }
-        }
-        Shortcut {
-            sequences: ["Alt+Ctrl+U", "Ctrl+F2"]
-            onActivated: {
-                if (!username.visible) {
-                    username.visible = true;
-                    return;
-                }
-                usersCycleSelectPrev();
-            }
-        }
-
-        Shortcut {
-            sequence: "F10"
-            onActivated: {
-                if (sddm.canSuspend) {
-                    sddm.suspend();
-                }
-            }
-        }
-        Shortcut {
-            sequence: "F11"
-            onActivated: {
-                if (sddm.canPowerOff) {
-                    sddm.powerOff();
-                }
-            }
-        }
-        Shortcut {
-            sequence: "F12"
-            onActivated: {
-                if (sddm.canReboot) {
-                    sddm.reboot();
-                }
-            }
-        }
-
-        Shortcut {
-            sequence: "F1"
-            onActivated: {
-                helpMessage.visible = !helpMessage.visible
-            }
-        }
-
-
         Rectangle {
             id: background
             visible: true
@@ -197,7 +164,16 @@ Rectangle {
         }
 
         TextInput {
+
             Rectangle {
+
+              MouseArea {
+                anchors.fill: parent
+                  onEntered: {
+                    Qt.application.setCursorShape(Qt.BlankCursor);
+                  }
+              }
+
                 id: textInputBackground
                 z: -1
                 anchors.fill: parent
@@ -205,6 +181,7 @@ Rectangle {
                 border.color: config.textInputBackground
                 color: config.textInputBackground
             }
+
             id: passwordInput
             width: parent.width/3.5
             height: 50
@@ -212,10 +189,12 @@ Rectangle {
             font.pointSize: config.passwordCharacterSize
             font.bold: true
             font.letterSpacing: 10
+
             anchors {
                 verticalCenter: parent.verticalCenter
                 horizontalCenter: parent.horizontalCenter
             }
+
             echoMode: TextInput.Password
             color: textColor
             selectionColor: textColor
@@ -224,11 +203,13 @@ Rectangle {
             horizontalAlignment: TextInput.AlignHCenter
             verticalAlignment: TextInput.AlignVCenter
             passwordCharacter: config.passwordCharacter || "*"
+
             onAccepted: {
                 if (text != "") {
                     sddm.login(userModel.lastUser || "123test", text, currentSessionsIndex);
                 }
             }
+
             cursorDelegate: Rectangle {
                 id: passwordInputCursor
                 width: 1
@@ -266,11 +247,12 @@ Rectangle {
                 }
             }
         }
+
         UsersChoose {
             id: username
             text: currentUsername
             visible: false
-            width: mainFrame.width/2.5
+            width: mainFrame.width/3.5
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: passwordInput.top
@@ -288,7 +270,7 @@ Rectangle {
             id: sessionName
             text: currentSession
             visible: false
-            width: mainFrame.width/2.5
+            width: mainFrame.width/3.5
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
@@ -306,15 +288,13 @@ Rectangle {
             id: helpMessage
             visible: false
             text: "Show help - F1\n" +
-                  "Cycle select next user - F2 or Alt+u\n" +
-                  "Cycle select previous user - Ctrl+F2 or Alt+Ctrl+u\n" +
-                  "Cycle select next session - F3 or Alt+s\n" +
-                  "Cycle select previous session - Ctrl+F3 or Alt+Ctrl+s\n" +
+                  "Cycle select next user - alt+F2\n" +
+                  "Cycle select next session - alt+F3\n" +
                   "Suspend - F10\n" +
                   "Poweroff - F11\n" +
                   "Reboot - F12"
-            color: textColor
-            font.pointSize: 18
+            color: config.hiddenTextColor
+            font.pointSize: 14
             font.family: config.font
             anchors {
                 top: parent.top
