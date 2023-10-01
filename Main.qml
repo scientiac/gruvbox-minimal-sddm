@@ -126,6 +126,7 @@ Rectangle {
         function onLoginSucceeded() {
             background.border.width = 0;
             animateBorder.stop();
+            mouseArea.cursorShape = Qt.BlankCursor;
         }
     }
 
