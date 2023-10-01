@@ -49,3 +49,21 @@ services.xserver = {
     };
 };
 ```
+
+### Fixing Fonts
+
+> configuration.nix
+```nix
+  fonts = {
+    fontDir.enable = true;
+    fontconfig = {
+      enable = true;
+      defaultFonts = { 
+        monospace = ["FantasqueSansMNerdFont"];
+      };
+    };
+    packages = with pkgs; [
+      (nerdfonts.override {fonts = ["FantasqueSansMono"];})
+    ];
+  };
+```
