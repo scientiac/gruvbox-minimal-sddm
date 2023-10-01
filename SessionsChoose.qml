@@ -6,8 +6,8 @@ Item {
     property string text: ""
     property string prevText: "<"
     property string nextText: ">"
-    property int fontPointSize: 24
-    property string fontFamily: "monospace"
+    property int fontPointSize: 16
+    property string fontFamily: config.font
     signal prevClicked()
     signal nextClicked()
     Text {
@@ -16,7 +16,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         font.pointSize: root.fontPointSize
         font.family: root.fontFamily
-        color: textColor
+        color: config.hiddenTextColor
         text: root.text
         anchors {
             horizontalCenter: parent.horizontalCenter
@@ -26,7 +26,7 @@ Item {
     Text {
         id: prevButton
         text: root.prevText
-        color: textColor
+        color: config.hiddenTextColor
         font.pointSize: root.fontPointSize
         font.family: root.fontFamily
         anchors {
@@ -44,9 +44,9 @@ Item {
     Text {
         id: nextButton
         text: root.nextText
-        color: textColor
+        color: config.hiddenTextColor
         font.pointSize: root.fontPointSize
-        font.family: "monospace"
+        font.family: root.fontFamily
         anchors {
             right: parent.right
             verticalCenter: parent.verticalCenter
